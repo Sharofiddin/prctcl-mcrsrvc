@@ -1,14 +1,15 @@
-const colors = require('colors/safe')
-const dotenv = require('dotenv')
+import red_cl from 'colors/safe.js';
+const { red } = red_cl;
+import { config } from 'dotenv'
+import packageJson from '../package.json' assert {type:"json"} 
 
-const packageJson = require('../package.json')
 
-const envResult = dotenv.config()
+const envResult = config()
 
 if (envResult.error) {
   // eslint-disable-next-line no-console
   console.error(
-    `${colors.red('[ERROR] env failed to load:')} ${envResult.error}`
+    `${red('[ERROR] env failed to load:')} ${envResult.error}`
   )
 
   process.exit(1)
@@ -16,17 +17,23 @@ if (envResult.error) {
 
 function requireFromEnv (key) {
   if (!process.env[key]) {
-    console.error(`${colors.red('[APP ERROR] Missing env variable:')} ${key}`)
+    console.error(`${red('[APP ERROR] Missing env variable:')} ${key}`)
 
     return process.exit(1)
   }
-
+  console.log(key + ":" +process.env[key])
   return process.env[key]
 }
 
-module.exports = {
-  appName: requireFromEnv('APP_NAME'),
-  env: requireFromEnv('NODE_ENV'),
-  port: parseInt(requireFromEnv('PORT'), 10),
-  version: packageJson.version
+const appName = requireFromEnv('APP_NAME')
+const env = requireFromEnv('NODE_ENV')
+const databaseUrl = requireFromEnv('DATABASE_URL')
+const port = parseInt(requireFromEnv('PORT'), 10)
+const version = packageJson.version
+export default {
+ appName,
+ env ,
+ databaseUrl,
+ port
 }
+

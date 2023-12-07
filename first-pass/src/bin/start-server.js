@@ -1,2 +1,2 @@
-const { start } = require('../')
-start()
+import app from '../index.js'
+app.start()

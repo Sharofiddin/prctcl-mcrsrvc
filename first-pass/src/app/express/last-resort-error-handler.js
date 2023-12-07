@@ -3,4 +3,4 @@ function lastResortErrorHandler (err, req, res, next) {
   console.error(traceId, err)
   res.status(500).send('error')
 }
-module.exports = lastResortErrorHandler
+export default lastResortErrorHandler
