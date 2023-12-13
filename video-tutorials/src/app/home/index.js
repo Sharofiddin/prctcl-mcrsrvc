@@ -5,7 +5,10 @@ function createHandlers({ queries }) {
   function home(req, res, next) {
     return queries
       .loadHomePage()
-      .then((viewData) => res.render("home/templates/home", viewData))
+      
+      .then((homePageData) =>{ 
+        res.render("home/templates/home", homePageData.pageData)
+      })
       .catch(next);
   }
   return {
@@ -18,6 +21,8 @@ function createQueries({ db }) {
     return db.then((client) =>
       client('pages')
         .where({page_name: 'home'})
+        .limit(1)
+        .then(camelCaseKeys)
         .then((rows) => rows[0])
     );
   }
@@ -38,3 +43,4 @@ function createHome({ db }) {
 }
 
 export default createHome;
+
