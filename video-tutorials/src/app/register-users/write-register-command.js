@@ -1,6 +1,7 @@
-import { uuid } from 'uuid'
+import uuid from 'uuid'
 function writeRegisterCommand(context) {
-    const userId = context.attributes.userId
+    console.log(JSON.stringify(context))
+    const userId = context.attributes.id
     const stream = `identity:command-${userId}`
     const command = {
         id: uuid(),
@@ -9,7 +10,7 @@ function writeRegisterCommand(context) {
             traceId: context.traceId,
             userId
         },
-        data:{
+        data: {
             userId,
             email: context.attributes.email,
             passwordHash: context.attributes.passwordHash

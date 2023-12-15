@@ -4,6 +4,8 @@ import createPostgresClient from './postgres-client.js'
 import createMessageStore from './message-store/index.js'
 import createRecordViewingsApp from './app/record-viewings/index.js'
 import createHomePageAggregator from './aggregators/home-page.js'
+import createRegisterUserApp from './app/register-users/index.js'
+import createIdentityComponent from './components/identity/index.js'
 function createConfig({ env }) {
   console.log("dbUrl: " + env.databaseUrl)
   console.log("msgStoreUrl: " + env.messageStoreConnectionString)
@@ -18,6 +20,8 @@ function createConfig({ env }) {
   })
   const homeApp = createHomeApp({ db:knexClient });
   const recordViewingsApp = createRecordViewingsApp({messageStore})
+  const registerUserApp = createRegisterUserApp({db:knexClient, messageStore})
+  const identityComponent = createIdentityComponent({messageStore})
   const homePageAggregator = createHomePageAggregator({
     db: knexClient,
     messageStore})
@@ -25,15 +29,17 @@ function createConfig({ env }) {
     homePageAggregator
   ]
   const components = [
-
+    identityComponent
   ]
   return {
     db: knexClient,
     homeApp,
     recordViewingsApp,
+    registerUserApp,
     messageStore,
     homePageAggregator,
     aggregators,
+    identityComponent,
     components
   };
   

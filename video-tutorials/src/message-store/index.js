@@ -13,6 +13,7 @@ function createMessageStore({ db }) {
     write: write,
     createSubscription,
     read: read,
+    fetch: read.fetch,
     readLastMessage: read.readLastMessage,
   }
 }
